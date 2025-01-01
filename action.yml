@@ -4,8 +4,8 @@ inputs:
   os:
     description: Operating system
     required: true
-  node:
-    description: Node.js version
+  perl:
+    description: Perl version
     required: true
 
 runs:
@@ -18,7 +18,7 @@ runs:
     - name: Set up perl
       uses: shogo82148/actions-setup-perl@v1
       with:
-        perl-version: ${{ matrix.perl }}
+        perl-version: ${{ inputs.perl }}
     - name: Show Perl version
       run: perl -V
     - name: Install current cpanm
@@ -27,15 +27,15 @@ runs:
       run: cpanm --installdeps .
 
     - name: Show content of log files on Linux
-      if: ${{ failure() && startsWith( matrix.runner, 'ubuntu-' )  }}
+      if: ${{ failure() && startsWith( inputs.os, 'ubuntu-' )  }}
       run: cat /home/runner/.cpanm/work/*/build.log
  
     - name: Show content of log files on Mac
-      if: ${{ failure() && startsWith( matrix.runner, 'macos-' )  }}
+      if: ${{ failure() && startsWith( inputs.os, 'macos-' )  }}
       run: cat /Users/runner/.cpanm/work/*/build.log
  
     - name: Show content of log files on Windows
-      if: ${{ failure() && startsWith( matrix.runner, 'windows-' )  }}
+      if: ${{ failure() && startsWith( inputs.os, 'windows-' )  }}
       run: cat C:/Users/RUNNER~1/.cpanm/work/*/build.log
 
     - name: Process Makefile.PL
