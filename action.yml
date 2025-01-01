@@ -10,6 +10,7 @@ inputs:
 
 runs:
   using: "composite"
+  runs-on: ${{ inputs.os }}
   steps:
     - uses: actions/checkout@v4
       with:
